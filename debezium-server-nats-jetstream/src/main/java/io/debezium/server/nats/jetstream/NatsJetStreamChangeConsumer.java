@@ -55,10 +55,10 @@ public class NatsJetStreamChangeConsumer extends BaseChangeConsumer
     @ConfigProperty(name = PROP_CREATE_STREAM, defaultValue = "false")
     boolean createStream;
 
-    @ConfigProperty(name = PROP_AUTH_JWT, defaultValue = "")
+    @ConfigProperty(name = PROP_AUTH_JWT, defaultValue = "-")
     String jwt;
 
-    @ConfigProperty(name = PROP_AUTH_SEED, defaultValue = "")
+    @ConfigProperty(name = PROP_AUTH_SEED, defaultValue = "-")
     String seed;
 
     @Inject
@@ -83,7 +83,7 @@ public class NatsJetStreamChangeConsumer extends BaseChangeConsumer
                     .servers(url.split(","))
                     .noReconnect();
 
-            if (!jwt.isEmpty() && !seed.isEmpty()) {
+            if (!jwt.equals("-") && !seed.equals("-")) {
                 natsOptionsBuilder.authHandler(Nats.staticCredentials(jwt.toCharArray(), seed.toCharArray()));
             }
 
